@@ -22,4 +22,11 @@ public class AdminController {
         service.addAdmin(admin);
         System.out.println(admin);
     }
+
+    @DeleteMapping("/delete/{adminID}")
+    public void deleteAdmin(@PathVariable  Integer adminID){
+        service.deleteAdmin(adminID);
+    }
+
+
 }

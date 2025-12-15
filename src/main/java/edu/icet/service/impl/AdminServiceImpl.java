@@ -19,4 +19,9 @@ public class AdminServiceImpl implements AdminService {
             repository.save(mapper.map(admin, Admin.class));
 
     }
+
+    @Override
+    public void deleteAdmin(Integer adminID) {
+        repository.deleteById(adminID);
+    }
 }
