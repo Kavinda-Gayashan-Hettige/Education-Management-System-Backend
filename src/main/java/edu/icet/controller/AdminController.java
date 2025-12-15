@@ -28,5 +28,9 @@ public class AdminController {
         service.deleteAdmin(adminID);
     }
 
-
+    @PutMapping("/update-admin")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateAdmin(@RequestBody AdminDto admin){
+        service.updateAdmin(admin);
+    }
 }

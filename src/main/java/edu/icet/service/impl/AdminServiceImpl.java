@@ -24,4 +24,10 @@ public class AdminServiceImpl implements AdminService {
     public void deleteAdmin(Integer adminID) {
         repository.deleteById(adminID);
     }
+
+    @Override
+    public void updateAdmin(AdminDto admin) {
+
+        repository.save(mapper.map(admin, Admin.class));
+    }
 }
