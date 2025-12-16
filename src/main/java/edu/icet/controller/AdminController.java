@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RestController
@@ -32,5 +33,10 @@ public class AdminController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateAdmin(@RequestBody AdminDto admin){
         service.updateAdmin(admin);
+    }
+
+    @GetMapping("/get-all")
+    public List<AdminDto> getAll(){
+        return service.getAll();
     }
 }

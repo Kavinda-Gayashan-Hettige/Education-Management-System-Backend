@@ -11,7 +11,7 @@ import lombok.ToString;
 @Table
 public class Admin {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer adminID;
     private String name;
 }
