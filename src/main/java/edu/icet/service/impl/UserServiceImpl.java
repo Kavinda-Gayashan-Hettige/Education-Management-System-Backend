@@ -69,6 +69,13 @@ public class UserServiceImpl implements UserService {
         return mapper.map(updatedUser, UserDto.class);
     }
 
+    @Override
+    public void changePassword(Integer id, String newPassword) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setPassword(newPassword);
+        repository.save(user);
+    }
 
 
 }

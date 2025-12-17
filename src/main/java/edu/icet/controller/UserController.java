@@ -49,4 +49,10 @@ public class UserController {
         return ResponseEntity.ok(updatedUser);
     }
 
+    @PutMapping("/{id}/change-password")
+    public ResponseEntity<String> changePassword(@PathVariable Integer id, @RequestBody String newPassword) {
+        userService.changePassword(id, newPassword);
+        return ResponseEntity.ok("Password updated successfully");
+    }
+
 }

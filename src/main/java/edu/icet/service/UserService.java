@@ -16,4 +16,6 @@ public interface UserService {
     List<UserDto> getAllUsers();
 
     UserDto updateUser(Integer id, UserDto userDto);
+
+    void changePassword(Integer id, String newPassword);
 }
