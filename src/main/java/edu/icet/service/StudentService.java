@@ -12,4 +12,6 @@ public interface StudentService {
     void deleteStudent(Integer id);
 
     List<StudentDto> getAllStudents();
+
+    StudentDto getStudentById(Integer id);
 }

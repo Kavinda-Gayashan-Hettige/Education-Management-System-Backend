@@ -1,5 +1,6 @@
 package edu.icet.controller;
 
+import edu.icet.model.dto.ParentDto;
 import edu.icet.model.dto.StudentDto;
 import edu.icet.service.StudentService;
 import lombok.RequiredArgsConstructor;
@@ -34,5 +35,11 @@ public class StudentController {
     @ResponseStatus(HttpStatus.OK)
     public List<StudentDto> getAllStudents() {
         return service.getAllStudents();
+    }
+
+    @GetMapping("/get/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public StudentDto getStudentById(@PathVariable Integer id) {
+        return service.getStudentById(id);
     }
 }

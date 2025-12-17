@@ -1,7 +1,9 @@
 package edu.icet.service.impl;
 
+import edu.icet.model.dto.ParentDto;
 import edu.icet.model.dto.StudentDto;
 import edu.icet.model.dto.TeacherDto;
+import edu.icet.model.entity.Parent;
 import edu.icet.model.entity.Student;
 import edu.icet.model.entity.Teacher;
 import edu.icet.repository.StudentRepository;
@@ -43,6 +45,14 @@ public class StudentServiceImpl implements StudentService {
         });
 
         return studentList;
+    }
+
+    @Override
+    public StudentDto getStudentById(Integer id) {
+        Student student = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found with id: " + id));
+
+        return mapper.map(student, StudentDto.class);
     }
 
 
