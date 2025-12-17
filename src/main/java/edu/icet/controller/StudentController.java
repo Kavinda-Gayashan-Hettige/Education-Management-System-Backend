@@ -23,4 +23,10 @@ public class StudentController {
     public void updateStudent(@RequestBody StudentDto student) {
         service.updateStudent(student);
     }
+
+    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteStudent(@PathVariable Integer id) {
+        service.deleteStudent(id);
+    }
 }

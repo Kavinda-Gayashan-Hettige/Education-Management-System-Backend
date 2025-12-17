@@ -6,4 +6,6 @@ public interface StudentService {
     void addStudent(StudentDto student);
 
     void updateStudent(StudentDto student);
+
+    void deleteStudent(Integer id);
 }

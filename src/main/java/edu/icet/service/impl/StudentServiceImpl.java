@@ -23,5 +23,10 @@ public class StudentServiceImpl implements StudentService {
         repository.save(mapper.map(student, Student.class));
     }
 
+    @Override
+    public void deleteStudent(Integer id) {
+        repository.deleteById(id);
+    }
+
 
 }
