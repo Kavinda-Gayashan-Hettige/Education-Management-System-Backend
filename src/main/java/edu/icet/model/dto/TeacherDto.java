@@ -8,5 +8,5 @@ import lombok.ToString;
 public class TeacherDto {
 private Integer teacherID;
 private String name;
-
+private UserDto user;
 }

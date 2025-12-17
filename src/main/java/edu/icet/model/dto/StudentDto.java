@@ -5,8 +5,8 @@ import lombok.ToString;
 
 @Data
 @ToString
-public class AdminDto {
-    private Integer adminID;
-    private String name;
+public class StudentDto {
+    private Long studentId;
     private UserDto user;
+    private String grade;
 }
