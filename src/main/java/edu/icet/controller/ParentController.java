@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/parent")
 @RequiredArgsConstructor
@@ -27,5 +29,11 @@ public class ParentController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteParent(@PathVariable Integer id) {
         service.deleteParent(id);
+    }
+
+    @GetMapping("/get-all")
+    @ResponseStatus(HttpStatus.OK)
+    public List<ParentDto> getAllParents() {
+        return service.getAllParents();
     }
 }

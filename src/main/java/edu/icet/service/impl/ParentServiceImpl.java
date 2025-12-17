@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ParentServiceImpl implements ParentService {
@@ -28,4 +30,15 @@ public class ParentServiceImpl implements ParentService {
     public void deleteParent(Integer id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public List<ParentDto> getAllParents() {
+
+        List<Parent> parents = repository.findAll();
+
+        return parents.stream()
+                .map(parent -> mapper.map(parent, ParentDto.class))
+                .toList();
+    }
+
 }
