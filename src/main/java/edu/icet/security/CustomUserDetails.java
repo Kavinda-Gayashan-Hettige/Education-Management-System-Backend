@@ -49,6 +49,6 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.isActive(); // 🔥 deactivate / activate logic
+        return user.isActive();
     }
 }
