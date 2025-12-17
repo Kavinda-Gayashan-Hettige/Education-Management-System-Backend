@@ -17,4 +17,11 @@ public class StudentServiceImpl implements StudentService {
     public void addStudent(StudentDto student) {
         repository.save(mapper.map(student, Student.class));
     }
+
+    @Override
+    public void updateStudent(StudentDto student) {
+        repository.save(mapper.map(student, Student.class));
+    }
+
+
 }

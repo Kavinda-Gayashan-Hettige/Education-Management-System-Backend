@@ -18,4 +18,9 @@ public class StudentController {
         System.out.println(student);
     }
 
+    @PutMapping("/update")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateStudent(@RequestBody StudentDto student) {
+        service.updateStudent(student);
+    }
 }
