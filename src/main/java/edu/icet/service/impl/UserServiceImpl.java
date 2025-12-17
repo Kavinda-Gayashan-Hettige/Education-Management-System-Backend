@@ -94,5 +94,14 @@ public class UserServiceImpl implements UserService {
         repository.deleteById(id);
     }
 
+    @Override
+    public void deactivateUser(Integer id) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setActive(false);
+        repository.save(user);
+    }
+
+
 
 }

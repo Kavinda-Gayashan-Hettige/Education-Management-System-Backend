@@ -22,4 +22,6 @@ public interface UserService {
     void changeRole(Integer id, String role);
 
     void deleteUser(Integer id);
+
+    void deactivateUser(Integer id);
 }
