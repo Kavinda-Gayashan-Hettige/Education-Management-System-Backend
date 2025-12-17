@@ -6,4 +6,6 @@ public interface ParentService {
     void addParent(ParentDto parent);
 
     void updateParent(ParentDto parent);
+
+    void deleteParent(Integer id);
 }

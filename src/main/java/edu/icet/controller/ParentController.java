@@ -22,4 +22,10 @@ public class ParentController {
     public void updateParent(@RequestBody ParentDto parent) {
         service.updateParent(parent);
     }
+
+    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteParent(@PathVariable Integer id) {
+        service.deleteParent(id);
+    }
 }

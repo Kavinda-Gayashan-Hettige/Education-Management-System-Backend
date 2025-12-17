@@ -23,4 +23,9 @@ public class ParentServiceImpl implements ParentService {
     public void updateParent(ParentDto parent) {
         repository.save(mapper.map(parent, Parent.class));
     }
+
+    @Override
+    public void deleteParent(Integer id) {
+        repository.deleteById(id);
+    }
 }
