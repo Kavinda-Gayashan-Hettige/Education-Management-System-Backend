@@ -5,6 +5,7 @@ import edu.icet.model.entity.User;
 import edu.icet.repository.UserRepository;
 import edu.icet.service.UserService;
 
+import edu.icet.util.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -75,6 +76,22 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         user.setPassword(newPassword);
         repository.save(user);
+    }
+
+    @Override
+    public void changeRole(Integer id, String role) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setRole(UserRole.valueOf(role));
+        repository.save(user);
+    }
+
+    @Override
+    public void deleteUser(Integer id) {
+        if (!repository.existsById(id)) {
+            throw new RuntimeException("User not found");
+        }
+        repository.deleteById(id);
     }
 
 

@@ -55,4 +55,15 @@ public class UserController {
         return ResponseEntity.ok("Password updated successfully");
     }
 
+    @PutMapping("/{id}/role")
+    public ResponseEntity<String> changeRole(@PathVariable Integer id, @RequestBody String role) {
+        userService.changeRole(id, role);
+        return ResponseEntity.ok("Role updated successfully");
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
+        userService.deleteUser(id);
+        return ResponseEntity.ok("User deleted successfully");
+    }
 }

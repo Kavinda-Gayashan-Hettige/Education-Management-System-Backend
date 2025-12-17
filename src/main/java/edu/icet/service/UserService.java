@@ -18,4 +18,8 @@ public interface UserService {
     UserDto updateUser(Integer id, UserDto userDto);
 
     void changePassword(Integer id, String newPassword);
+
+    void changeRole(Integer id, String role);
+
+    void deleteUser(Integer id);
 }
