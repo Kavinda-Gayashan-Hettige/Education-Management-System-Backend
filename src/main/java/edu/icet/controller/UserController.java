@@ -23,5 +23,10 @@ public class UserController {
         return ResponseEntity.ok(savedUser);
     }
 
-
+    @PostMapping("/login")
+    public ResponseEntity<String> loginUser(@RequestBody UserDto userDto) {
+        boolean success = userService.loginUser(userDto.getUserName(), userDto.getPassword());
+        if (success) return ResponseEntity.ok("Login successful");
+        return ResponseEntity.status(401).body("Invalid credentials");
+    }
 }

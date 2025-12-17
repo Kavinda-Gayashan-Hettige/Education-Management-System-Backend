@@ -26,5 +26,14 @@ public class UserServiceImpl implements UserService {
         return mapper.map(savedUser, UserDto.class);
     }
 
+    @Override
+    public boolean loginUser(String userName, String password) {
+        return repository
+                .findByUserName(userName)
+                .filter(u -> u.getPassword().equals(password))
+                .filter(User::isActive)
+                .isPresent();
+    }
+
 
 }

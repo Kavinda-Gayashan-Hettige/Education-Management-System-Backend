@@ -8,4 +8,5 @@ public interface UserService {
     UserDto registerUser(UserDto userDto);
 
 
+    boolean loginUser(String userName, String password);
 }
