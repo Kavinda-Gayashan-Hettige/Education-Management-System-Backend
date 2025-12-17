@@ -12,4 +12,6 @@ public interface ParentService {
     void deleteParent(Integer id);
 
     List<ParentDto> getAllParents();
+
+    ParentDto getParentById(Integer id);
 }

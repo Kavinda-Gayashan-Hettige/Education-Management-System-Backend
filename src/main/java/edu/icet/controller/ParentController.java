@@ -36,4 +36,10 @@ public class ParentController {
     public List<ParentDto> getAllParents() {
         return service.getAllParents();
     }
+
+    @GetMapping("/get/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ParentDto getParentById(@PathVariable Integer id) {
+        return service.getParentById(id);
+    }
 }

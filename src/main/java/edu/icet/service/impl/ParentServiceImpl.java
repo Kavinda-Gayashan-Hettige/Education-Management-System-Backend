@@ -41,4 +41,14 @@ public class ParentServiceImpl implements ParentService {
                 .toList();
     }
 
+    @Override
+    public ParentDto getParentById(Integer id) {
+
+        Parent parent = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Parent not found with id: " + id));
+
+        return mapper.map(parent, ParentDto.class);
+    }
+
+
 }
