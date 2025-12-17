@@ -1,11 +1,7 @@
 package edu.icet.service.impl;
 
-import edu.icet.model.dto.ParentDto;
 import edu.icet.model.dto.StudentDto;
-import edu.icet.model.dto.TeacherDto;
-import edu.icet.model.entity.Parent;
 import edu.icet.model.entity.Student;
-import edu.icet.model.entity.Teacher;
 import edu.icet.repository.StudentRepository;
 import edu.icet.service.StudentService;
 import lombok.RequiredArgsConstructor;

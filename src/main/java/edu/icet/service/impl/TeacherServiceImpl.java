@@ -1,8 +1,6 @@
 package edu.icet.service.impl;
 
-import edu.icet.model.dto.AdminDto;
 import edu.icet.model.dto.TeacherDto;
-import edu.icet.model.entity.Admin;
 import edu.icet.model.entity.Teacher;
 import edu.icet.repository.TeacherRepository;
 import edu.icet.service.TeacherService;
