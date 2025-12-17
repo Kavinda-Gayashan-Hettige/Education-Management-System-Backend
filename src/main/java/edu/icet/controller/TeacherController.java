@@ -1,5 +1,6 @@
 package edu.icet.controller;
 
+import edu.icet.model.dto.AdminDto;
 import edu.icet.model.dto.TeacherDto;
 import edu.icet.service.TeacherService;
 import lombok.RequiredArgsConstructor;
@@ -22,5 +23,11 @@ public class TeacherController {
     @DeleteMapping("/delete/{id}")
     public void deleteTeacher(@PathVariable  Integer id){
         service.deleteTeacher(id);
+    }
+
+    @PutMapping("/update-teacher")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateTeacher(@RequestBody TeacherDto teacher){
+        service.updateTeacher(teacher);
     }
 }
