@@ -1,7 +1,11 @@
 package edu.icet.model.dto;
 
 import edu.icet.util.UserRole;
+import lombok.Data;
+import lombok.ToString;
 
+@Data
+@ToString
 public class UserDto {
     private Integer id;
     private String userName;

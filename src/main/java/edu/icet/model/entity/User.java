@@ -8,7 +8,7 @@ import lombok.ToString;
 @Data
 @ToString
 @Entity
-@Table
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,6 +16,7 @@ public class User {
     private String userName;
     private String password;
     private String email;
+    @Enumerated(EnumType.STRING)
     private UserRole role;
     private String address;
     private String firstName;

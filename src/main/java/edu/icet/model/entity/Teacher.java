@@ -13,6 +13,8 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private Integer teacherID;
     private String name;
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
     private String course;
 }
