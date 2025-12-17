@@ -29,4 +29,11 @@ public class UserController {
         if (success) return ResponseEntity.ok("Login successful");
         return ResponseEntity.status(401).body("Invalid credentials");
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUser(@PathVariable Integer id) {
+        UserDto user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
+    }
+
 }

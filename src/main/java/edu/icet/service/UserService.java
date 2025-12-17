@@ -9,4 +9,6 @@ public interface UserService {
 
 
     boolean loginUser(String userName, String password);
+
+    UserDto getUserById(Integer id);
 }
