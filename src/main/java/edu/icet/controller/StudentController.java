@@ -29,4 +29,10 @@ public class StudentController {
     public void deleteStudent(@PathVariable Integer id) {
         service.deleteStudent(id);
     }
+
+    @GetMapping("/get-all")
+    @ResponseStatus(HttpStatus.OK)
+    public List<StudentDto> getAllStudents() {
+        return service.getAllStudents();
+    }
 }
