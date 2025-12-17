@@ -102,6 +102,13 @@ public class UserServiceImpl implements UserService {
         repository.save(user);
     }
 
+    @Override
+    public void activateUser(Integer id) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        user.setActive(true);
+        repository.save(user);
+    }
 
 
 }

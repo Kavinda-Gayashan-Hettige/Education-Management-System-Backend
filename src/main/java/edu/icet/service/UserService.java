@@ -24,4 +24,6 @@ public interface UserService {
     void deleteUser(Integer id);
 
     void deactivateUser(Integer id);
+
+    void activateUser(Integer id);
 }
