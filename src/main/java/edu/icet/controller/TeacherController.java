@@ -18,4 +18,9 @@ public class TeacherController {
         service.addTeacher(teacher);
         System.out.println(teacher);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteTeacher(@PathVariable  Integer id){
+        service.deleteTeacher(id);
+    }
 }

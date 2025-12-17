@@ -4,4 +4,6 @@ import edu.icet.model.dto.TeacherDto;
 
 public interface TeacherService {
     void addTeacher(TeacherDto teacher);
+
+    void deleteTeacher(Integer id);
 }

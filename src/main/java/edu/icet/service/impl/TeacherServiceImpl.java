@@ -17,4 +17,9 @@ public class TeacherServiceImpl implements TeacherService {
     public void addTeacher(TeacherDto teacher) {
         repository.save(mapper.map(teacher, Teacher.class));
     }
+
+    @Override
+    public void deleteTeacher(Integer id) {
+        repository.deleteById(id);
+    }
 }
