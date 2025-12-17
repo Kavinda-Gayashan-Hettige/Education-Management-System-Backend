@@ -53,5 +53,22 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public UserDto updateUser(Integer id, UserDto userDto) {
+        User user = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setUserName(userDto.getUserName());
+        user.setEmail(userDto.getEmail());
+        user.setAddress(userDto.getAddress());
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setPhoneNo(userDto.getPhoneNo());
+
+        User updatedUser = repository.save(user);
+        return mapper.map(updatedUser, UserDto.class);
+    }
+
+
 
 }
