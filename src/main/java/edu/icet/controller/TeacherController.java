@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/teacher")
 @RequiredArgsConstructor
@@ -29,5 +31,10 @@ public class TeacherController {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateTeacher(@RequestBody TeacherDto teacher){
         service.updateTeacher(teacher);
+    }
+
+    @GetMapping("/get-all")
+    public List<TeacherDto> getAll(){
+        return service.getAll();
     }
 }
