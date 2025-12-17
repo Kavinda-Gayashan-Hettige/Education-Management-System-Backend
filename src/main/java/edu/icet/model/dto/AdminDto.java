@@ -8,5 +8,5 @@ import lombok.ToString;
 public class AdminDto {
     private Integer adminID;
     private String name;
-    private String password;
+
 }

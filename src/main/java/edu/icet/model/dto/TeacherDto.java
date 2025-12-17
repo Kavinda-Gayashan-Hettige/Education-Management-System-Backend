@@ -6,7 +6,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class TeacherDto {
-private Integer id;
+private Integer teacherID;
 private String name;
-private String password;
+
 }
