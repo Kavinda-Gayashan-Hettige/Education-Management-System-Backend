@@ -1,6 +1,5 @@
 package edu.icet.controller;
 
-import edu.icet.model.dto.AdminDto;
 import edu.icet.model.dto.TeacherDto;
 import edu.icet.service.TeacherService;
 import lombok.RequiredArgsConstructor;

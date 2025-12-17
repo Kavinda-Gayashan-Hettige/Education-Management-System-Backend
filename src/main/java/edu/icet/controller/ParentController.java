@@ -1,8 +1,6 @@
 package edu.icet.controller;
 
-import edu.icet.model.dto.AdminDto;
 import edu.icet.model.dto.ParentDto;
-import edu.icet.service.AdminService;
 import edu.icet.service.ParentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
