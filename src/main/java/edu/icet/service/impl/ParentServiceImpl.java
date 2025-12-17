@@ -18,4 +18,9 @@ public class ParentServiceImpl implements ParentService {
     public void addParent(ParentDto parent) {
             repository.save(mapper.map(parent, Parent.class));
     }
+
+    @Override
+    public void updateParent(ParentDto parent) {
+        repository.save(mapper.map(parent, Parent.class));
+    }
 }

@@ -16,4 +16,10 @@ public class ParentController {
     public void addParent(@RequestBody ParentDto parent) {
         service.addParent(parent);
     }
+
+    @PutMapping("/update")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateParent(@RequestBody ParentDto parent) {
+        service.updateParent(parent);
+    }
 }
