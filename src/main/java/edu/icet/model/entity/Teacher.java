@@ -14,4 +14,5 @@ public class Teacher {
     private Integer teacherID;
     private String name;
     private User user;
+    private String course;
 }
