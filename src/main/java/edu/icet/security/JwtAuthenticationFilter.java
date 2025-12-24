@@ -33,16 +33,25 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             String token = authHeader.substring(7);
             String username = jwtUtil.extractUsername(token);
 
-            UserDetails userDetails =
-                    userDetailsService.loadUserByUsername(username);
-
-            UsernamePasswordAuthenticationToken authToken =
-                    new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
-
-            SecurityContextHolder.getContext().setAuthentication(authToken);
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                
+                if (jwtUtil.validateToken(token) && userDetails.isEnabled()) {
+                    UsernamePasswordAuthenticationToken authToken =
+                            new UsernamePasswordAuthenticationToken(
+                                    userDetails, null, userDetails.getAuthorities());
+                    
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                }
+            }
         }
-
         filterChain.doFilter(request, response);
+    }
+    
+    // 🚨 Login සහ Register වලදී Filter එක Skip කරයි (403 fix එක)
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getRequestURI();
+        return path.startsWith("/users/login") || path.startsWith("/users/register");
     }
 }

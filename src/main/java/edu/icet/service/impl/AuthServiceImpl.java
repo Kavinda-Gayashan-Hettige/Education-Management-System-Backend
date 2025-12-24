@@ -1,9 +1,12 @@
 package edu.icet.service.impl;
 
 import edu.icet.model.dto.LoginRequestDto;
+import edu.icet.model.dto.LoginResponseDto;
+import edu.icet.model.dto.RegisterRequestDto;
 import edu.icet.model.entity.User;
 import edu.icet.repository.UserRepository;
 import edu.icet.service.AuthService;
+import edu.icet.security.JwtUtil; 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,23 +18,43 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil; 
+    
+    @Override
+    public void registerUser(RegisterRequestDto dto) {
+        User user = new User();
+        user.setUserName(dto.getUserName());
+        user.setFirstName(dto.getFirstName());
+        user.setLastName(dto.getLastName());
+        user.setRole(dto.getRole());
+        user.setActive(true);
+        
+        // 🚨 Password Encoding අත්‍යවශ්‍යයි
+        user.setPassword(passwordEncoder.encode(dto.getPassword())); 
+        
+        userRepository.save(user);
+    }
 
     @Override
-    public User login(LoginRequestDto dto) {
+    public LoginResponseDto login(LoginRequestDto dto) {
 
         User user = userRepository.findByUserName(dto.getUserName())
                 .orElseThrow(() -> new BadCredentialsException("Invalid username or password"));
 
-        // account active check
         if (!user.isActive()) {
             throw new BadCredentialsException("User account is deactivated");
         }
 
-        // password check
         if (!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("Invalid username or password");
         }
-
-        return user;
+        
+        String jwtToken = jwtUtil.generateToken(user);
+        
+        return new LoginResponseDto(
+            jwtToken, 
+            user.getRole().name(),
+            user.getUserName() 
+        );
     }
 }

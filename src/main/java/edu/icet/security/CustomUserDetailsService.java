@@ -3,24 +3,35 @@ package edu.icet.security;
 import edu.icet.model.entity.User;
 import edu.icet.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+
 @Service
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository repository;
+    private final UserRepository userRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
-
-        User user = repository.findByUserName(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-
-        return new CustomUserDetails(user);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUserName(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+        
+        // org.springframework.security.core.userdetails.User භාවිතය
+        return new org.springframework.security.core.userdetails.User(
+                user.getUserName(),
+                user.getPassword(),
+                user.isActive(), // Enabled
+                true, // Account non expired
+                true, // Credentials non expired
+                true, // Account non locked
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().name()))
+        );
     }
 }
-

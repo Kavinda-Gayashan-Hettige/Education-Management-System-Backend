@@ -1,8 +1,10 @@
 package edu.icet.service;
 
 import edu.icet.model.dto.LoginRequestDto;
-import edu.icet.model.entity.User;
+import edu.icet.model.dto.LoginResponseDto;
+import edu.icet.model.dto.RegisterRequestDto;
 
 public interface AuthService {
-    User login(LoginRequestDto dto);
+    LoginResponseDto login(LoginRequestDto dto);
+    void registerUser(RegisterRequestDto dto);
 }

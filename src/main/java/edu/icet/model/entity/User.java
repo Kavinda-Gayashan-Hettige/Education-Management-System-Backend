@@ -10,17 +10,20 @@ import lombok.ToString;
 @Entity
 @Table(name = "users")
 public class User {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    
+    @Column(unique = true) 
     private String userName;
-    private String password;
-    private String email;
-    @Enumerated(EnumType.STRING)
-    private UserRole role;
-    private String address;
+    
+    private String password; // Encrypted Password
     private String firstName;
     private String lastName;
-    private String phoneNo;
-    private boolean active;
+    
+    @Enumerated(EnumType.STRING)
+    private UserRole role; 
+    
+    private boolean active = true; // Default active
 }

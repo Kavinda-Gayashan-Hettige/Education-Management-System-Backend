@@ -1,81 +1,56 @@
 package edu.icet.controller;
 
-import edu.icet.model.dto.UserDto;
-import edu.icet.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import edu.icet.model.dto.LoginRequestDto;
+import edu.icet.model.dto.LoginResponseDto;
+import edu.icet.model.dto.RegisterRequestDto;
+import edu.icet.service.AuthService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize; // Role-based security සඳහා
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-
 @RestController
-@RequestMapping("/users")
-@CrossOrigin(origins = "*")
+@RequestMapping("/users") 
+@RequiredArgsConstructor
+@CrossOrigin 
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final AuthService authService; 
 
-
+    // 🚨 Public Endpoint: Token අවශ්‍ය නොවේ
     @PostMapping("/register")
-    public ResponseEntity<UserDto> registerUser(@RequestBody UserDto userDto) {
-        UserDto savedUser = userService.registerUser(userDto);
-        return ResponseEntity.ok(savedUser);
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<String> registerUser(@RequestBody RegisterRequestDto dto) {
+        authService.registerUser(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }
 
+    // 🚨 Public Endpoint: Token අවශ්‍ය නොවේ
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody UserDto userDto) {
-        boolean success = userService.loginUser(userDto.getUserName(), userDto.getPassword());
-        if (success) return ResponseEntity.ok("Login successful");
-        return ResponseEntity.status(401).body("Invalid credentials");
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto dto) {
+        LoginResponseDto response = authService.login(dto); 
+        return ResponseEntity.ok(response); 
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDto> getUser(@PathVariable Integer id) {
-        UserDto user = userService.getUserById(id);
-        return ResponseEntity.ok(user);
+    // 🚨 Secured Endpoint: ADMIN ට පමණක් අවසර
+    @GetMapping("/admin/data")
+    @PreAuthorize("hasRole('ADMIN')") 
+    public ResponseEntity<String> getAdminData() {
+        return ResponseEntity.ok("Welcome, ADMIN! This is secured data.");
     }
-
-    @GetMapping
-    public ResponseEntity<List<UserDto>> getAllUsers() {
-        List<UserDto> users = userService.getAllUsers();
-        return ResponseEntity.ok(users);
+    
+    // 🚨 Secured Endpoint: TEACHER සහ ADMIN ට අවසර
+    @GetMapping("/teacher/data")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')") 
+    public ResponseEntity<String> getTeacherData() {
+        return ResponseEntity.ok("Welcome, Teacher/Admin! This is teacher data.");
     }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Integer id, @RequestBody UserDto userDto) {
-        UserDto updatedUser = userService.updateUser(id, userDto);
-        return ResponseEntity.ok(updatedUser);
-    }
-
-    @PutMapping("/{id}/change-password")
-    public ResponseEntity<String> changePassword(@PathVariable Integer id, @RequestBody String newPassword) {
-        userService.changePassword(id, newPassword);
-        return ResponseEntity.ok("Password updated successfully");
-    }
-
-    @PutMapping("/{id}/role")
-    public ResponseEntity<String> changeRole(@PathVariable Integer id, @RequestBody String role) {
-        userService.changeRole(id, role);
-        return ResponseEntity.ok("Role updated successfully");
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Integer id) {
-        userService.deleteUser(id);
-        return ResponseEntity.ok("User deleted successfully");
-    }
-
-    @PutMapping("/{id}/deactivate")
-    public ResponseEntity<String> deactivateUser(@PathVariable Integer id) {
-        userService.deactivateUser(id);
-        return ResponseEntity.ok("User deactivated successfully");
-    }
-
-    @PutMapping("/{id}/activate")
-    public ResponseEntity<String> activateUser(@PathVariable Integer id) {
-        userService.activateUser(id);
-        return ResponseEntity.ok("User activated successfully");
+    
+    // 🚨 Secured Endpoint: STUDENT, TEACHER, ADMIN ට අවසර
+    @GetMapping("/student/data")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER', 'STUDENT')") 
+    public ResponseEntity<String> getStudentData() {
+        return ResponseEntity.ok("Welcome, Student! This is student data.");
     }
 }
