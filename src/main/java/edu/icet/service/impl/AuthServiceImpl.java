@@ -29,7 +29,7 @@ public class AuthServiceImpl implements AuthService {
         user.setRole(dto.getRole());
         user.setActive(true);
         
-        // 🚨 Password Encoding අත්‍යවශ්‍යයි
+       
         user.setPassword(passwordEncoder.encode(dto.getPassword())); 
         
         userRepository.save(user);

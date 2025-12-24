@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto registerUser(UserDto userDto) {
         User user = mapper.map(userDto, User.class);
-        user.setActive(true); // default active
+        user.setActive(true); 
         User savedUser = repository.save(user);
         return mapper.map(savedUser, UserDto.class);
     }

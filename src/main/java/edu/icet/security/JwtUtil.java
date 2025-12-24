@@ -12,7 +12,7 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    // 🚨 256-bit Key (අවම වශයෙන් අක්ෂර 32ක්)
+   
     private final String SECRET = "this-is-a-very-long-and-secure-secret-key-for-jwt-ems-security-tokens-1234567890"; 
     
     private SecretKey getSigningKey() {
@@ -24,7 +24,7 @@ public class JwtUtil {
                 .setSubject(user.getUserName())
                 .claim("role", user.getRole().name())
                 .setIssuedAt(new Date())
-                // Token වලංගු කාලය: පැය 24
+              
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) 
                 .signWith(getSigningKey())
                 .compact();

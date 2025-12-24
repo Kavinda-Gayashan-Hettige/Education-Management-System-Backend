@@ -18,12 +18,12 @@ public class User {
     @Column(unique = true) 
     private String userName;
     
-    private String password; // Encrypted Password
+    private String password; 
     private String firstName;
     private String lastName;
     
     @Enumerated(EnumType.STRING)
     private UserRole role; 
     
-    private boolean active = true; // Default active
+    private boolean active = true; 
 }

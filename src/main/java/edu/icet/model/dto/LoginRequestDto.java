@@ -1,4 +1,3 @@
-// LoginRequestDto.java
 package edu.icet.model.dto;
 import lombok.Data;
 
