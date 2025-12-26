@@ -6,7 +6,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +27,7 @@ public class CourseController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createCourse(CourseDto course) {
+    public void createCourse(@RequestBody CourseDto course) {
         courseService.createCourse(course);
     }
 
@@ -36,12 +38,12 @@ public class CourseController {
     }
 
     @GetMapping("/get/{id}")
-    public void getCourseById(Long id) {
+    public void getCourseById(@PathVariable Long id) {
         courseService.getCourseById(id);
     }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteCourse(Long id) {
+    public void deleteCourse(@PathVariable Long id) {
         courseService.deleteCourse(id);
     }
 }
