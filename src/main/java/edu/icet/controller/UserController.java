@@ -49,7 +49,7 @@ public class UserController {
     
    
     @GetMapping("/student/data")
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER', 'STUDENT')") 
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER', 'STUDENT','PARENT')") 
     public ResponseEntity<String> getStudentData() {
         return ResponseEntity.ok("Welcome, Student! This is student data.");
     }

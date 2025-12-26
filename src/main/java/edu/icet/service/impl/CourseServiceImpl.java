@@ -1,81 +1,45 @@
 package edu.icet.service.impl;
-import edu.icet.service.CourseService;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
+
 import edu.icet.model.dto.CourseDto;
 import edu.icet.model.entity.Course;
 import edu.icet.repository.CourseRepository;
+import edu.icet.service.CourseService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
 public class CourseServiceImpl implements CourseService {
 
     private final CourseRepository courseRepository;
-    
-   
-
-    private Course mapToEntity(CourseDto dto) {
-     
-        return new Course(
-                dto.getId(),
-                dto.getName(),
-                dto.getDescription(),
-                dto.getDurationMonths(),
-                dto.getFee()
-        );
-    }
-
-    private CourseDto mapToDto(Course entity) {
-        return new CourseDto(
-                entity.getId(),
-                entity.getName(),
-                entity.getDescription(),
-                entity.getDurationMonths(),
-                entity.getFee()
-        );
-    }
-    
-  
-
+    private final ModelMapper mapper;
     @Override
-    @Transactional
-    public CourseDto createCourse(CourseDto dto) {
-       
-        if (courseRepository.findByName(dto.getName()).isPresent()) {
-            throw new RuntimeException("Course name already exists: " + dto.getName());
-        }
-
-        Course entity = mapToEntity(dto);
-        Course savedEntity = courseRepository.save(entity);
-        return mapToDto(savedEntity);
+    public void createCourse(CourseDto course) {
+       courseRepository.save(mapper.map(course, Course.class));
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<CourseDto> getAllCourses() {
-        return courseRepository.findAll().stream()
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
+      List<CourseDto> courseList = new ArrayList<>();
+      List <Course> all = courseRepository.findAll();
+      all.forEach(courseEntity->{
+        courseList.add(mapper.map(courseEntity, CourseDto.class));
+      });
+      return courseList;
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Optional<CourseDto> getCourseById(Long id) {
-        return courseRepository.findById(id).map(this::mapToDto);
+    public void getCourseById(Long id) {
+      courseRepository.findById(id);
     }
-    
+
     @Override
-    @Transactional
     public void deleteCourse(Long id) {
-        if (!courseRepository.existsById(id)) {
-            throw new RuntimeException("Course not found with id: " + id);
-        }
-        courseRepository.deleteById(id);
+       courseRepository.deleteById(id);
     }
-
-    
 }

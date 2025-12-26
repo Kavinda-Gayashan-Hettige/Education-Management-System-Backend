@@ -1,57 +1,47 @@
 package edu.icet.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
+
 import edu.icet.model.dto.CourseDto;
 import edu.icet.service.CourseService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/courses") 
+@RequestMapping("/courses")
 @RequiredArgsConstructor
-@CrossOrigin 
+@CrossOrigin
 public class CourseController {
 
     private final CourseService courseService;
 
-   
-    @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<CourseDto> createCourse(@RequestBody CourseDto courseDto) {
-        CourseDto createdCourse = courseService.createCourse(courseDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdCourse);
+    @PostMapping("/add")
+    @ResponseStatus(HttpStatus.CREATED)
+    public void createCourse(CourseDto course) {
+        courseService.createCourse(course);
     }
 
-    
-    @GetMapping
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER', 'STUDENT')") 
-    public ResponseEntity<List<CourseDto>> getAllCourses() {
-        List<CourseDto> courses = courseService.getAllCourses();
-        return ResponseEntity.ok(courses);
+    @GetMapping("/get-all")
+    public List<CourseDto> getAllCourses() {
+        return courseService.getAllCourses();
+
     }
 
-   
-    @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER', 'STUDENT')") 
-    public ResponseEntity<CourseDto> getCourseById(@PathVariable Long id) {
-        return courseService.getCourseById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping("/get/{id}")
+    public void getCourseById(Long id) {
+        courseService.getCourseById(id);
     }
-    
-    
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> deleteCourse(@PathVariable Long id) {
-        try {
-            courseService.deleteCourse(id);
-            return ResponseEntity.noContent().build(); 
-        } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build(); 
-        }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteCourse(Long id) {
+        courseService.deleteCourse(id);
     }
 }
