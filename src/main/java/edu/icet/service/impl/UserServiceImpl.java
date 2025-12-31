@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -21,11 +20,10 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final ModelMapper mapper;
 
-
     @Override
     public UserDto registerUser(UserDto userDto) {
         User user = mapper.map(userDto, User.class);
-        user.setActive(true); 
+        user.setActive(true);
         User savedUser = repository.save(user);
         return mapper.map(savedUser, UserDto.class);
     }
@@ -47,26 +45,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
+    public List<UserDto> getAll() {
         return repository.findAll()
                 .stream()
                 .map(user -> mapper.map(user, UserDto.class))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public UserDto updateUser(Integer id, UserDto userDto) {
-        User user = repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        user.setUserName(userDto.getUserName());
-        
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-      
-
-        User updatedUser = repository.save(user);
-        return mapper.map(updatedUser, UserDto.class);
     }
 
     @Override
@@ -109,5 +92,24 @@ public class UserServiceImpl implements UserService {
         repository.save(user);
     }
 
+    @Override
+    public void addUser(UserDto userDto) {
+        User user = mapper.map(userDto, User.class);
+        user.setActive(true);
+        repository.save(user);
+    }
+
+    @Override
+    public void updateUser(UserDto userDto) {
+        User existingUser = repository.findById(userDto.getId())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        existingUser.setUserName(userDto.getUserName());
+        existingUser.setPassword(userDto.getPassword());
+        existingUser.setRole(userDto.getRole());
+        existingUser.setActive(userDto.isActive());
+
+        repository.save(existingUser);
+    }
 
 }

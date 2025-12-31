@@ -3,6 +3,7 @@ package edu.icet.controller;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.icet.model.dto.CourseDto;
+import edu.icet.model.entity.Course;
 import edu.icet.service.CourseService;
 import lombok.RequiredArgsConstructor;
 
@@ -27,8 +29,8 @@ public class CourseController {
 
     @PostMapping("/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createCourse(@RequestBody CourseDto course) {
-        courseService.createCourse(course);
+    public Course createCourse(@RequestBody CourseDto course) {
+       return courseService.createCourse(course);
     }
 
     @GetMapping("/get-all")

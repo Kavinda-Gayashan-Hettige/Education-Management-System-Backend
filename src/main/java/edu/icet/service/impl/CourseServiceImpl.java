@@ -19,8 +19,8 @@ public class CourseServiceImpl implements CourseService {
     private final CourseRepository courseRepository;
     private final ModelMapper mapper;
     @Override
-    public void createCourse(CourseDto course) {
-       courseRepository.save(mapper.map(course, Course.class));
+    public Course createCourse(CourseDto course) {
+      return courseRepository.save(mapper.map(course, Course.class));
     }
 
     @Override

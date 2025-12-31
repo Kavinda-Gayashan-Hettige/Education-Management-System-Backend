@@ -3,10 +3,11 @@ package edu.icet.service;
 import java.util.List;
 
 import edu.icet.model.dto.CourseDto;
+import edu.icet.model.entity.Course;
 
 public interface CourseService {
 
-    void createCourse(CourseDto course);
+    Course createCourse(CourseDto course);
 
     List<CourseDto> getAllCourses();
 
