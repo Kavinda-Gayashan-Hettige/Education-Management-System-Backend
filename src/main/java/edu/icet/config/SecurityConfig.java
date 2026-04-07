@@ -2,9 +2,6 @@ package edu.icet.config;
 
 import edu.icet.security.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
-
-import java.util.Arrays;
-import java.util.Collections;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,6 +17,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -39,73 +38,70 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    
-
     @Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-    http
-        .csrf(AbstractHttpConfigurer::disable)
-        
-        .cors(cors -> cors.configurationSource(request -> {
-            CorsConfiguration config = new CorsConfiguration();
-          
-            config.setAllowedOrigins(Arrays.asList(
-                "http://localhost:5173", 
-                "http://localhost:3000",
-                "http://localhost:8080"
-            ));
-            config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-            config.setAllowedHeaders(Arrays.asList("*"));
-            config.setAllowCredentials(true);
-            config.setMaxAge(3600L);
-            return config;
-        }))
-        
-        .sessionManagement(session -> session
-            .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        
-        .authorizeHttpRequests(auth -> auth
-           
-            .requestMatchers(
-                "/users/login", 
-                "/users/register",
-                "/error",
-                "/v3/api-docs/**",
-                "/swagger-ui/**",
-                "/swagger-ui.html"
-            ).permitAll()
-            
-           
-            .requestMatchers(HttpMethod.GET, "/courses/**").permitAll()
-            .requestMatchers(HttpMethod.POST, "/courses/**").hasAuthority("ADMIN")
-            .requestMatchers(HttpMethod.DELETE, "/courses/**").hasAuthority("ADMIN")
-            
-           
-            .requestMatchers("/admin/**").hasAuthority("ADMIN")
-            
-          
-            .requestMatchers(HttpMethod.GET, "/teacher/**").hasAnyAuthority("ADMIN", "TEACHER")
-            .requestMatchers(HttpMethod.POST, "/teacher/**").hasAuthority("ADMIN")
-            .requestMatchers(HttpMethod.PUT, "/teacher/**").hasAuthority("ADMIN")
-            .requestMatchers(HttpMethod.DELETE, "/teacher/**").hasAuthority("ADMIN")
-            
-          
-            .requestMatchers(HttpMethod.GET, "/student/**").hasAnyAuthority("ADMIN", "TEACHER", "STUDENT")
-            .requestMatchers(HttpMethod.POST, "/student/**").hasAuthority("ADMIN")
-            .requestMatchers(HttpMethod.PUT, "/student/**").hasAnyAuthority("ADMIN", "STUDENT")
-            .requestMatchers(HttpMethod.DELETE, "/student/**").hasAuthority("ADMIN")
-            
-          
-            .requestMatchers(HttpMethod.GET, "/parent/**").hasAnyAuthority("ADMIN", "PARENT")
-            .requestMatchers(HttpMethod.POST, "/parent/**").hasAuthority("ADMIN")
-            .requestMatchers(HttpMethod.PUT, "/parent/**").hasAnyAuthority("ADMIN", "PARENT")
-            .requestMatchers(HttpMethod.DELETE, "/parent/**").hasAuthority("ADMIN")
-            
-          
-            .anyRequest().authenticated())
-        
-        .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
-    
-    return http.build();
-}
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+
+                .cors(cors -> cors.configurationSource(request -> {
+                    CorsConfiguration config = new CorsConfiguration();
+                    config.setAllowedOrigins(Arrays.asList(
+                            "http://localhost:5173",
+                            "http://localhost:3000",
+                            "http://localhost:8080"
+                    ));
+                    config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    config.setAllowedHeaders(Arrays.asList("*"));
+                    config.setAllowCredentials(true);
+                    config.setMaxAge(3600L);
+                    return config;
+                }))
+
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                .authorizeHttpRequests(auth -> auth
+                        // Public endpoints
+                        .requestMatchers(
+                                "/users/login",
+                                "/users/register",
+                                "/error",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
+
+
+                        .requestMatchers(HttpMethod.GET, "/courses/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/courses/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/courses/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/courses/**").hasAuthority("ADMIN")
+
+
+                        .requestMatchers("/users/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/users/teacher/**").hasAnyAuthority("ADMIN", "TEACHER")
+                        .requestMatchers("/users/student/**").hasAnyAuthority("ADMIN", "TEACHER", "STUDENT", "PARENT")
+                        .requestMatchers("/users/parent/**").hasAnyAuthority("ADMIN", "PARENT")
+
+
+                        .requestMatchers(HttpMethod.POST, "/users/add").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/users/delete/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/users/update-user").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/users/get-all").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/users/*/role").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/users/*/activate").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/users/*/deactivate").hasAuthority("ADMIN")
+
+
+                        .requestMatchers(HttpMethod.GET, "/users/*").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/users/*/password").authenticated()
+
+
+                        .anyRequest().authenticated()
+                )
+
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
+    }
 }

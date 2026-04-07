@@ -38,23 +38,23 @@ public class UserController {
         return ResponseEntity.ok(response); 
     }
 
-   
+
     @GetMapping("/admin/data")
-    @PreAuthorize("hasRole('ADMIN')") 
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<String> getAdminData() {
         return ResponseEntity.ok("Welcome, ADMIN! This is secured data.");
     }
-    
-   
+
+
     @GetMapping("/teacher/data")
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')") 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'TEACHER')")
     public ResponseEntity<String> getTeacherData() {
         return ResponseEntity.ok("Welcome, Teacher/Admin! This is teacher data.");
     }
-    
-   
+
+
     @GetMapping("/student/data")
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER', 'STUDENT','PARENT')") 
+    @PreAuthorize("hasAnyAuthority('ADMIN', 'TEACHER', 'STUDENT', 'PARENT')")
     public ResponseEntity<String> getStudentData() {
         return ResponseEntity.ok("Welcome, Student! This is student data.");
     }
@@ -83,29 +83,29 @@ public class UserController {
         return userService.getAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public UserDto getUserById(@PathVariable Integer id) {
         return userService.getUserById(id);
     }
 
-    @PutMapping("/{id}/password")
+    @PutMapping("/id/{id}/password")
     public void changePassword(@PathVariable Integer id,
                                @RequestParam String newPassword) {
         userService.changePassword(id, newPassword);
     }
 
-    @PutMapping("/{id}/role")
+    @PutMapping("/id/{id}/role")
     public void changeRole(@PathVariable Integer id,
                            @RequestParam String role) {
         userService.changeRole(id, role);
     }
 
-     @PutMapping("/{id}/deactivate")
+     @PutMapping("/id/{id}/deactivate")
     public void deactivateUser(@PathVariable Integer id) {
         userService.deactivateUser(id);
     }
 
-     @PutMapping("/{id}/activate")
+     @PutMapping("/id/{id}/activate")
     public void activateUser(@PathVariable Integer id) {
         userService.activateUser(id);
     }

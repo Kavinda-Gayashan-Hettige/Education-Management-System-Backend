@@ -9,5 +9,5 @@ public class RegisterRequestDto {
     private String password;
     private String firstName;
     private String lastName;
-    private UserRole role; // Register කරන විට Role එක දෙනවා
+    private UserRole role;
 }
