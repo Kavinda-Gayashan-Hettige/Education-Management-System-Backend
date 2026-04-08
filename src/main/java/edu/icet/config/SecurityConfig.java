@@ -96,6 +96,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/users/*").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/users/*/password").authenticated()
 
+                        .requestMatchers("/api/messages/**").permitAll()
 
                         .anyRequest().authenticated()
                 )
