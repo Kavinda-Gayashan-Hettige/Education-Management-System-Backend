@@ -97,6 +97,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/users/*/password").authenticated()
 
                         .requestMatchers("/api/messages/**").permitAll()
+                        .requestMatchers("/api/student/**").permitAll()
 
                         .anyRequest().authenticated()
                 )
